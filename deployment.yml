@@ -1,0 +1,48 @@
+# combined-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql-k8s
+          image: mysql:8.0.23
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: che
+            - name: MYSQL_DATABASE
+              value: k8s-db
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-momo
+spec:
+  selector:
+    matchLabels:
+      app: kubernetes-momo
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kubernetes-momo
+    spec:
+      containers:
+        - name: kubernetes-che
+          image: momo/kubernetes-momo:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
