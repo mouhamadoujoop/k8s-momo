@@ -3,10 +3,14 @@ spring:
   application:
     name: kubernetes-momo
   datasource:
-    url: jdbc:mysql://mysql:3306/k8s-db?createDatabaseIfNotExist=true
-    username: 'root'
-    password: 'momo'
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql:3306/k8s-db?createDatabaseIfNotExist=true
+#    url: jdbc:mysql://mysql:3306/
+     password: ${DB_PASSWORD}
+     url: jdbc:mysql://${DB_HOST}/${DB_NAME}?useSSL=false
+     username: ${DB_USERNAME}
+#    username: 'root'
+#    password: 'momo'
+#     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
@@ -14,4 +18,4 @@ spring:
     show-sql: true
 
 server:
-  port: 8080
+  port: 8084
